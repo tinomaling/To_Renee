@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Renée💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffe6e6, #fffaf0);
+      color: #444;
+      scroll-behavior: smooth;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background Hearts Animation */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff6b81;
+      transform: rotate(-45deg);
+      animation: fall 5s linear infinite;
+      opacity: 0.5;
+    }
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff6b81;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: 10px; }
+    @keyframes fall {
+      0% { transform: translateY(-100vh) rotate(-45deg); opacity: 0.5; }
+      100% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    }
+
+    /* Image Modal */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+    }
+    .image-modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .image-modal-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 10px;
+    }
+    .image-modal-content p {
+      font-family: 'Dancing Script', cursive;
+      color: #d65a6d;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+    }
+
+    .section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .section.visible {
+      opacity: 1;
+    }
+
+    h1 { font-size: 3rem; color: #d65a6d; margin-bottom: 1rem; }
+    h2 { font-size: 2rem; color: #ff6b81; margin-bottom: 0.5rem; }
+    p {
+      font-size: 1.3rem;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* Image Gallery for Section 2 */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      max-width: 800px;
+      margin: 1.5rem 0;
+      width: 90%;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 5px;
+      font-size: 0.9rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+    }
+
+    /* Navigation Dots */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: #d65a6d;
+    }
+
+    /* Audio Controls */
+    .audio-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #d65a6d;
+      z-index: 10;
+    }
+
+    footer {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fcecec;
+      font-size: 1.1rem;
+      color: #777;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      p { font-size: 1rem; }
+      .gallery { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+      .gallery-item img { height: 120px; }
+      .image-modal-content img { max-height: 60vh; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Hearts -->
+  <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="heart" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="heart" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="heart" style="left: 90%; animation-delay: 4s;"></div>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="image-modal">
+    <div class="image-modal-content">
+      <span class="close-btn" onclick="closeImageModal()">×</span>
+      <img id="expanded-image" src="" alt="Expanded image">
+      <p id="expanded-caption"></p>
+    </div>
+  </div>
+
+  <!-- 🎵 Background Music -->
+  <audio id="background-music" loop autoplay>
+    <source src="do4love.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+  </audio>
+  <div class="audio-control" onclick="toggleAudio()">🔊</div>
+
+  <!-- Navigation Dots -->
+  <div class="nav-dots">
+    <div class="dot" onclick="scrollToSection(0)"></div>
+    <div class="dot" onclick="scrollToSection(1)"></div>
+    <div class="dot" onclick="scrollToSection(2)"></div>
+    <div class="dot" onclick="scrollToSection(3)"></div>
+  </div>
+
+  <section class="section" id="s1">
+    <h1>💕To My Beautiful Girlfriend💕</h1>
+    <p>Renée, I’ve let you down, it’s true,</p> 
+    <p>And hurt the heart that’s pure and true.</p>
+    <p>You gave me love, your time, your grace</p>
+    <p>I gave you tears you shouldn’t face.</p>
+    <p>I failed in ways I can’t defend,</p>
+    <p>But never meant to make this end.</p>
+<p>My words fell short, my actions strayed,</p>
+<p>Yet still, for you, my heart has stayed.</p>
+<p>If there's a place in you for me,</p>
+<p>A spark of hope, a chance to be</p>
+<p>Then take this vow I humbly make:</p>
+<p>To love you right, for both our sake.</p>
+  </section>
+
+  <!-- Background Hearts -->
+  <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="heart" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="heart" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="heart" style="left: 90%; animation-delay: 4s;"></div>
+
+  <section class="section" id="s2">
+    <h2>Us Against The World</h2>
+    <p>From the day we met to every memory we create, I cherish every second with you!</p>
+    <div class="gallery">
+
+      <div class="gallery-item" onclick="openImageModal('day1.jpeg', '12/04/16 - Our Paths Collided')">
+        <img src="day1.jpeg" alt="12/04/16 - Our Paths Collided">
+        <div class="gallery-caption">12/04/16 - Our Paths Collided</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('1stlove.jpeg', '28/01/18 - Our First Date')">
+        <img src="1stlove.jpeg" alt="28/01/18 - Our First Date">
+        <div class="gallery-caption">28/01/18 - Our First Date</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_7675.jpeg', '14/02/22 - My Girlfriend')">
+        <img src="img_7675.jpeg" alt="14/02/22 - My Girlfriend">
+        <div class="gallery-caption">14/02/22 - My Girlfriend</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_0131.jpeg', '26/07/22 - Exhibition Era')">
+        <img src="img_0131.jpeg" alt="26/07/22 - Exhibition Era">
+        <div class="gallery-caption">26/07/22 - Exhibition Era</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_1632.jpeg', '02/08/22 - Special Picnic')">
+        <img src="img_1632.jpeg" alt="02/08/22 - Special Picnic">
+        <div class="gallery-caption">02/08/22 - Special Picnic</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_4378.jpeg', '22/02/23 - First Trip Away')">
+        <img src="img_4378.jpeg" alt="22/02/23 - First Trip Away">
+        <div class="gallery-caption">22/02/23 - First Trip Away</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('italy.jpeg', '13/01/24 - Milan Chronicles')">
+        <img src="italy.jpeg" alt="13/01/24 - Milan Chronicles">
+        <div class="gallery-caption">13/01/24 - Milan Chronicles</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('dscn0766.jpeg', '14/02/24 - 3rd Valentine')">
+        <img src="dscn0766.jpeg" alt="14/02/24 - 3rd Valentine">
+        <div class="gallery-caption">14/02/24 - 3rd Valentine</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('grad.jpeg', '15/07/24 - GraduATE')">
+        <img src="grad.jpeg" alt="15/07/24 - GraduATE">
+        <div class="gallery-caption">15/07/24 - GraduATE</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_4963.jpeg', '27/08/24 - Bank Holiday Vibes')">
+        <img src="img_4963.jpeg" alt="27/08/24 - Bank Holiday Vibes">
+        <div class="gallery-caption">27/08/24 - Bank Holiday Vibes</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_1563.jpeg', '09/03/25 - London Date')">
+        <img src="img_1563.jpeg" alt="09/03/25 - London Date">
+        <div class="gallery-caption">09/03/25 - London Date</div>
+      </div>
+
+      <div class="gallery-item" onclick="openImageModal('img_6796.jpeg', '14/07/25 - SlowJamsWA')">
+        <img src="img_6796.jpeg" alt="14/07/25 - SlowJamsWA">
+        <div class="gallery-caption">14/07/25 - SlowJamsWA</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Background Hearts -->
+  <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="heart" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="heart" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="heart" style="left: 90%; animation-delay: 4s;"></div>
+
+
+  <section class="section" id="s3">
+    <h2>You're My Everything</h2>
+    <p>You make my world brighter, my days sweeter, and my heart fuller. I love you more every day!</p>
+  </section>
+
+  <!-- Background Hearts -->
+  <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="heart" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="heart" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="heart" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="heart" style="left: 90%; animation-delay: 4s;"></div>
+
+  <footer class="section" id="s4">
+<p>Where words fall short or lose their way,</p>
+<p>My hands, my heart will surely say</p>
+<p>That love for you will brightly shine,</p>
+<p>In every act, through craft and time</p>
+   <p>❤️Made with all my love — just for you bubs!❤️</p>
+  </footer>
+
+  <!-- 📜 JavaScript -->
+  <script>
+    const sections = document.querySelectorAll('.section');
+    const dots = document.querySelectorAll('.dot');
+    let index = 0;
+    let autoScroll = true; // Start auto-scroll immediately
+
+    // Show first section
+    sections[0].classList.add('visible');
+    dots[0].classList.add('active');
+
+    // Auto-scroll
+    const scrollInterval = setInterval(() => {
+      if (autoScroll) {
+        index = (index + 1) % sections.length;
+        updateSection();
+      }
+    }, 10000);
+
+    // Manual scroll to section
+    function scrollToSection(i) {
+      autoScroll = false;
+      index = i;
+      updateSection();
+      setTimeout(() => { autoScroll = true; }, 10000);
+    }
+
+    // Update active section and dot
+    function updateSection() {
+      sections.forEach((section, i) => {
+        section.classList.toggle('visible', i === index);
+        dots[i].classList.toggle('active', i === index);
+      });
+      sections[index].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Audio control
+    const audio = document.getElementById('background-music');
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play();
+        document.querySelector('.audio-control').textContent = '🔊';
+      } else {
+        audio.pause();
+        document.querySelector('.audio-control').textContent = '🔇';
+      }
+    }
+
+    // Image Modal control
+    function openImageModal(src, caption) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('expanded-image').src = src;
+      document.getElementById('expanded-caption').textContent = caption;
+      modal.style.display = 'flex';
+      autoScroll = false; // Pause auto-scroll
+    }
+
+    function closeImageModal() {
+      document.getElementById('image-modal').style.display = 'none';
+      autoScroll = true; // Resume auto-scroll
+    }
+  </script>
+</body>
+</html>
